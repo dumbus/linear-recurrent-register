@@ -1,7 +1,26 @@
-const polynomial = '5430'; // Характеристический многочлен для Вашего варианта (см. таблицу в задании к ЛР)
-const listNumber = '6'; // Ваш номер в группе по журналу (в десятичной системе счисления)
+const polynomial = 5430; // Характеристический многочлен для Вашего варианта (см. таблицу в задании к ЛР)
+const listNumber = 6; // Ваш номер в группе по журналу (в десятичной системе счисления)
 
-const data = { polynomial, listNumber };
+const parseData = (polynomial, listNumber) => {
+  let parsedPolynomial;
+  let parsedListNumber;
+
+  if (typeof polynomial === 'number') {
+    parsedPolynomial = polynomial.toString();
+  } else {
+    parsedPolynomial = polynomial;
+  }
+
+  if (typeof listNumber === 'number') {
+    parsedListNumber = listNumber.toString();
+  } else {
+    parsedListNumber = listNumber;
+  }
+
+  return { parsedPolynomial, parsedListNumber };
+};
+
+const data = parseData(polynomial, listNumber);
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
@@ -34,10 +53,10 @@ const validateListNumber = (listNumber) => {
 };
 
 const validateData = (data) => {
-  const { polynomial, listNumber } = data;
+  const { parsedPolynomial, parsedListNumber } = data;
 
-  const isPolynomialValid = validatePolynomial(polynomial);
-  const isListNumberValid = validateListNumber(listNumber);
+  const isPolynomialValid = validatePolynomial(parsedPolynomial);
+  const isListNumberValid = validateListNumber(parsedListNumber);
 
   if (!isPolynomialValid || !isListNumberValid) {
     console.log(messages.emptyLineMsg);
@@ -594,11 +613,13 @@ const printResults = (polynomial, listNumber, startState, allPeriods) => {
 const isDataValid = validateData(data);
 
 if (isDataValid) {
-  const binaryPolynomial = getBinaryPolynomial(polynomial);
-  const startState = getStartState(listNumber);
+  const { parsedPolynomial, parsedListNumber } = data;
+
+  const binaryPolynomial = getBinaryPolynomial(parsedPolynomial);
+  const startState = getStartState(parsedListNumber);
   const addictiveBits = getAddictiveBits(binaryPolynomial);
 
   const allPeriods = findAllPeriods(startState, addictiveBits);
 
-  printResults(polynomial, listNumber, startState, allPeriods);
+  printResults(parsedPolynomial, parsedListNumber, startState, allPeriods);
 }
