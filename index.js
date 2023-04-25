@@ -1,5 +1,5 @@
-const polynomial = '5430';
-const listNumber = '6';
+const polynomial = '5430'; // Характеристический многочлен для Вашего варианта (см. таблицу в задании к ЛР)
+const listNumber = '6'; // Ваш номер в группе по журналу (в десятичной системе счисления)
 
 const data = { polynomial, listNumber };
 
