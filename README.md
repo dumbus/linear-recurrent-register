@@ -12,11 +12,11 @@
 
 ## Как пользоваться программой:
 
-1. В переменную polynomial записываем характеристический многочлен для Вашего варианта (см. таблицу в задании к ЛР)
-https://github.com/dumbus/linear-recurrent-register/blob/818ffea52c257464bdec9f93412c420b00c63d53/index.js#L1
+1. В переменную `polynomial` записываем характеристический многочлен для Вашего варианта (см. таблицу в задании к ЛР)
+https://github.com/dumbus/linear-recurrent-register/blob/78f15923745bf29a4712caf6f8d68c943e8d54ef/index.js#L1
 
-2. В переменную listNumber записываем Ваш номер в группе по журналу (в десятичной системе счисления)
-https://github.com/dumbus/linear-recurrent-register/blob/818ffea52c257464bdec9f93412c420b00c63d53/index.js#L2
+2. В переменную `listNumber` записываем Ваш номер в группе по журналу (в десятичной системе счисления)
+https://github.com/dumbus/linear-recurrent-register/blob/78f15923745bf29a4712caf6f8d68c943e8d54ef/index.js#L2
 
 3. Запускаем программу
 
