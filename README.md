@@ -45,7 +45,7 @@ https://github.com/dumbus/linear-recurrent-register/blob/78f15923745bf29a4712caf
 
 *Скриншот с примером вывода (представлен не целиком):*  
   
-![начальные данные](https://user-images.githubusercontent.com/79057837/234390060-44e5f4b8-a9e6-48db-b637-412d1a6192dd.PNG)
+![начальные данные](https://user-images.githubusercontent.com/79057837/235310694-8759febc-8b1a-4f84-8744-c1a41e46eda3.PNG)
 
 ### 3. Моделирование работы ЛРР
 
