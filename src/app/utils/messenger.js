@@ -5,41 +5,42 @@ import { getRecSeqAnalysis } from '../recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
-  invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
-  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!'
+  invalidPolynomialNotAllowedChars: 'Ошибка: Использованы недопустимые символы при вводе степеней характеристического многочлена h(x)!',
+  invalidPolynomialDoubles: 'Ошибка: В степенях коэффициентов многочлена h(x) не может быть повторений!',
+  invalidPolynomialNoDecsOrder: 'Ошибка: Степени коэффициентов многочлена h(x) должны быть указаны по убыванию!',
+  invalidPolynomialNoZero: 'Ошибка: В степенях коэффициентов многочлена h(x) обязательно должен присутствовать символ "0"',
+  invalidPolynomialNoFive: 'Ошибка: В степенях коэффициентов многочлена h(x) обязательно должен присутствовать символ "5"',
+  invalidStartNumber: 'Ошибка: Начальное положение регистра должно быть числом от 1 до 31!',
+  invalidPeriod: 'Длина периода не равна максимальной, дальнейшие вычисления невозможны!'
 };
 
 const messages = {
-  inputPolynomialMsg: 'Введите характеристический многочлен согласно варианту: ',
-  inputListNumberMsg: 'Введите ваш номер в списке группы: ',
-  tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
+  inputPolynomialMsg: 'Введите степени коэффициентов характеристического многочлена h(x) по убыванию (степени "5" и "0" являются обязательными): ',
+  inputStartNumberMsg: 'Введите начальное положение регистра в десятичной системе счисления (число от 1 до 31): ',
+  tryAgainMsg: '!!! Проверьте введённые данные и попробуйте ещё раз !!!',
   inputExitCommand: '!!! Расчёты завершены, нажмите Enter, чтобы завершить выполнение программы. !!!',
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, listNumber) => {
+const printRegisterParametersData = (polynomial, binaryPolynomial, startNumber, startState) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
-
-  const variantMsg = 'Вариант:';
-  const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
-
-  const messagesArr = [variantMsg, polynomialFormulaMsg];
-
-  console.log(messages.emptyLineMsg);
-  for (let i = 0; i < messagesArr.length; i++) {
-    console.log(messagesArr[i]);
-  }
-};
-
-const printStartData = (polynomial, listNumber, startState) => {
-  const startDataMsg = 'Выполнение работы:';
-  const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
-
   const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
-  const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
+  const registerParametersMsg = 'Параметры регистра:';
+  const polynomialFormulaMsg = `Характеристический многочлен: h(x) = ${polynomialFormula}`;
+  const binaryPolynomialMsg = `Двоичное представление регистра: ${binaryPolynomial}`;
+  const startStateMsg = `Начальное заполнение регистра: S = ${startNumber} = ${startState}`;
+  const maxPeriodLength = `Максимальный период регистра: ${maxLengthFormula}, ${notExistingStateMsg}`;
+  const maxRecSeqLength = `Максимальная длина рекуррентной последовательности для регистра: ${maxLengthFormula}`;
 
-  const messagesArr = [startDataMsg, startStateMsg, maxPeriodMsg];
+  const messagesArr = [
+    registerParametersMsg,
+    polynomialFormulaMsg,
+    binaryPolynomialMsg,
+    startStateMsg,
+    maxPeriodLength,
+    maxRecSeqLength
+  ];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -58,9 +59,9 @@ const printAllPeriodsData = (allPeriods) => {
 
     console.log(messages.emptyLineMsg);
     if (i === 0) {
-      console.log('Проведем моделирование работы ЛРР, представив таблицу смены его состояний:');
+      console.log('Моделирование работы ЛРР, представив таблицу смены его состояний:');
     } else {
-      console.log('Выберем другое начальное заполнение, выбирая среди отсутствующих состояний, проведем моделирование:');
+      console.log('Моделирование работы ЛРР с неиспользованыым ранее состоянием в качестве начального:');
     }
 
     for (let j = 0; j < periodTable.length; j++) {
@@ -82,7 +83,7 @@ const printRecSeqAnalysisResults = (allPeriods) => {
     windowProperty
   } = getRecSeqAnalysis(allPeriods);
 
-  const analysisMsg = 'Исследуем ЛРП с наибольшим периодом:';
+  const analysisMsg = 'Исследуем линейную рекуррентную последовательность (для периода максимальной длины):';
   const recSeqMsg = `Линейно рекуррентная последовательность: ${recSeq}.`;
   const recSeqPeriodMsg = `Период последовательности: ${recSeqPeriod}.`;
   const recSeqBalanceMsg = `Баланс единиц и нулей: ${recSeqBalance.ones} единиц, ${recSeqBalance.zeroes} нулей.`;
@@ -134,11 +135,4 @@ const printRecSeqAnalysisResults = (allPeriods) => {
   }
 };
 
-const printResults = (polynomial, listNumber, startState, allPeriods) => {
-  printVariantData(polynomial, listNumber);
-  printStartData(polynomial, listNumber, startState);
-  printAllPeriodsData(allPeriods);
-  printRecSeqAnalysisResults(allPeriods);
-};
-
-export { errors, messages, printResults };
+export { errors, messages, printRegisterParametersData, printAllPeriodsData, printRecSeqAnalysisResults };

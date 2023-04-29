@@ -7,7 +7,11 @@ import { getAddictiveBits } from './app/registerParamsCalc/getAddictiveBits.js';
 
 import { findAllPeriods } from './app/periodsCalc/findAllPeriods.js';
 
-import { printResults } from './app/utils/messenger.js';
+import {
+  printRegisterParametersData,
+  printAllPeriodsData,
+  printRecSeqAnalysisResults
+} from './app/utils/messenger.js';
 
 let isDataValid = false;
 
@@ -19,14 +23,16 @@ while (!isDataValid) {
   isDataValid = validateData(data);
 }
 
-const { polynomial, listNumber } = data;
+const { polynomial, startNumber } = data;
 
 const binaryPolynomial = getBinaryPolynomial(polynomial);
-const startState = getStartState(listNumber);
+const startState = getStartState(startNumber);
 const addictiveBits = getAddictiveBits(binaryPolynomial);
 
 const allPeriods = findAllPeriods(startState, addictiveBits);
 
-printResults(polynomial, listNumber, startState, allPeriods);
+printRegisterParametersData(polynomial, binaryPolynomial, startNumber, startState);
+printAllPeriodsData(allPeriods);
+printRecSeqAnalysisResults(allPeriods);
 
 await getExitCommand();

@@ -1,7 +1,7 @@
-const getStartState = (listNumber) => {
-  const binListNumber = Number(listNumber).toString(2);
+const getStartState = (startNumber) => {
+  const binStartNumber = Number(startNumber).toString(2);
 
-  let startState = binListNumber;
+  let startState = binStartNumber;
 
   while (startState.length !== 5) {
     startState = '0' + startState;

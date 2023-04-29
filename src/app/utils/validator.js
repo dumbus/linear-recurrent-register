@@ -1,33 +1,46 @@
 import { errors, messages } from './messenger.js';
 
 const validatePolynomial = (polynomial) => {
-  const regex = /[0-5]/g;
+  const areCharactersNotAllowed = !(/[0-5]/g).test(polynomial);
+  const isRepeated = (/([0-5])(?=\1)/g).test(polynomial);
+  const noZero = Boolean(polynomial.indexOf('0') === -1);
+  const noFive = Boolean(polynomial.indexOf('5') === -1);
+  const noOrderDesc = polynomial.split('').sort((a, b) => b - a).join('') !== polynomial;
 
-  const isRepeated = /([0-5])(?=\1)/g;
+  const polynomialErrors = [];
 
-  const isValid = regex.test(polynomial) && !isRepeated.test(polynomial);
+  if (areCharactersNotAllowed) polynomialErrors.push(errors.invalidPolynomialNotAllowedChars);
+  if (isRepeated && !areCharactersNotAllowed) polynomialErrors.push(errors.invalidPolynomialDoubles);
+  if (noOrderDesc && !areCharactersNotAllowed) polynomialErrors.push(errors.invalidPolynomialNoDecsOrder);
+  if (noZero && !areCharactersNotAllowed) polynomialErrors.push(errors.invalidPolynomialNoZero);
+  if (noFive && !areCharactersNotAllowed) polynomialErrors.push(errors.invalidPolynomialNoFive);
 
-  return isValid;
+  return polynomialErrors;
 };
 
-const validateListNumber = (listNumber) => {
-  const isValid = listNumber > 0 && listNumber < 32;
+const validateStartNumber = (startNumber) => {
+  const isValid = startNumber > 0 && startNumber < 32;
 
-  return isValid;
+  const startNumberErrors = [];
+
+  if (!isValid) startNumberErrors.push(errors.invalidStartNumber);
+
+  return startNumberErrors;
 };
 
 const validateData = (data) => {
-  const { polynomial, listNumber } = data;
+  const { polynomial, startNumber } = data;
 
-  const isPolynomialValid = validatePolynomial(polynomial);
-  const isListNumberValid = validateListNumber(listNumber);
+  const foundErrors = [];
 
-  if (!isPolynomialValid || !isListNumberValid) {
+  foundErrors.push(...validatePolynomial(polynomial));
+  foundErrors.push(...validateStartNumber(startNumber))
+
+  if (foundErrors.length) {
     console.log(messages.emptyLineMsg);
     console.log(errors.invalidData);
 
-    if (!isPolynomialValid) console.log(errors.invalidPolynomial);
-    if (!isListNumberValid) console.log(errors.invalidListNumber);
+    foundErrors.forEach((error) => console.log(error));
     
     console.log(messages.tryAgainMsg);
     console.log(messages.emptyLineMsg);

@@ -7,9 +7,9 @@ const getData = async () => {
   const rl = readline.createInterface({ input, output });
 
   const polynomial = await rl.question(messages.inputPolynomialMsg);
-  const listNumber = await rl.question(messages.inputListNumberMsg);
+  const startNumber = await rl.question(messages.inputStartNumberMsg);
 
-  const data = { polynomial, listNumber };
+  const data = { polynomial, startNumber };
 
   rl.close();
 
