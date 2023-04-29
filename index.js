@@ -237,7 +237,7 @@ const getLongestPeriodData = (polynomial) => {
 
   const maxPeriodLength = Math.pow(2, maxDegree) - 1;
 
-  const maxLengthFormula = `2^${maxDegree} - 2 = ${maxPeriodLength}`;
+  const maxLengthFormula = `2^${maxDegree} - 1 = ${maxPeriodLength}`;
 
   const notExistingStateMsg = `(все комбинации, кроме ${maxDegree} нулей)`;
 
